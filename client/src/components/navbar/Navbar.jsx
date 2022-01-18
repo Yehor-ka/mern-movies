@@ -3,6 +3,7 @@ import './navbar.scss';
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -25,9 +26,16 @@ const Navbar = () => {
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
             alt=""
           />
-          <span>Homepage</span>
-          <span>Series</span>
-          <span>Movies</span>
+          <NavLink className={({isActive}) => 'navLink' + (isActive ? ' active' : '')} to="/">
+            <span className='link'>Homepage</span>
+          </NavLink>
+          <NavLink className={({isActive}) => 'navLink' + (isActive ? ' active' : '')} to="/series">
+            <span className='link'>Series</span>
+          </NavLink>
+          <NavLink className={({isActive}) => 'navLink' + (isActive ? ' active' : '')} to="/movies">
+            <span className='link'>Movies</span>
+          </NavLink>
+
           <span>New and Popular</span>
           <span>My List</span>
         </div>
