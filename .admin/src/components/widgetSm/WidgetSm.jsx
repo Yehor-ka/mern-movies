@@ -1,0 +1,49 @@
+import './widgetSm.css';
+import { Visibility } from '@material-ui/icons';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
+
+export default function WidgetSm() {
+  const [newUsers, setNewUsers] = useState([]);
+
+  useEffect(() => {
+    const getNewUsers = async () => {
+      try {
+        const { data } = await axios.get('/users?new=true', {
+          headers: {
+            token:
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZTA3MWRkZWFlMzMxZjJjMTNiOTBiMSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0MjE3MjgwMSwiZXhwIjoxNjQyNjA0ODAxfQ.vq_Yy5-jV4OvRQdXK47XSdP8zJUgybwGohkc7kYFzuU',
+          },
+        });
+        setNewUsers(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getNewUsers();
+  }, []);
+  return (
+    <div className="widgetSm">
+      <span className="widgetSmTitle">New Join Members</span>
+      <ul className="widgetSmList">
+        {newUsers.map((user, i) => (
+          <li key={i} className="widgetSmListItem">
+            <img
+              src={user.profilePic || 'https://pbs.twimg.com/media/D8tCa48VsAA4lxn.jpg'}
+              alt=""
+              className="widgetSmImg"
+            />
+            <div className="widgetSmUser">
+              <span className="widgetSmUsername">{user.username}</span>
+            </div>
+            <button className="widgetSmButton">
+              <Visibility className="widgetSmIcon" />
+              Display
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
