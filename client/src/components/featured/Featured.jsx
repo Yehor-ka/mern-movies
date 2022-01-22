@@ -4,7 +4,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import axios from 'axios';
 
-const Featured = ({ type }) => {
+const Featured = ({ type, setGenre }) => {
   const [content, setContent] = useState({});
 
   useEffect(() => {
@@ -13,10 +13,10 @@ const Featured = ({ type }) => {
         const { data } = await axios.get(`/movies/random?type=${type}`, {
           headers: {
             token:
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZTA3MWRkZWFlMzMxZjJjMTNiOTBiMSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0MjE3MjgwMSwiZXhwIjoxNjQyNjA0ODAxfQ.vq_Yy5-jV4OvRQdXK47XSdP8zJUgybwGohkc7kYFzuU',
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZTA3MWRkZWFlMzMxZjJjMTNiOTBiMSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0Mjg2Mzc3NiwiZXhwIjoxNjQzMjk1Nzc2fQ.ql2sUh-Sjmx9-x_l4GT2K33w2WPOICDoIx36PcjivEs',
           },
         });
-        setContent(data[0])
+        setContent(data[0]);
       } catch (error) {
         console.log(error);
       }
@@ -29,8 +29,8 @@ const Featured = ({ type }) => {
       {type && (
         <div className="category">
           <span>{type === 'movies' ? 'Movies' : 'TV Series'}</span>
-          <select name="genre" id="genre">
-            <option>Genre</option>
+          <select name="genre" id="genre" onChange={(e) => setGenre(e.target.value)}>
+            <option value="">Genre</option>
             <option value="adventure">Adventure</option>
             <option value="comedy">Comedy</option>
             <option value="crime">Crime</option>

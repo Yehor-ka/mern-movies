@@ -1,11 +1,27 @@
-import React from 'react'
-import "./login.scss";
-
+import React, { useContext, useState } from 'react';
+import { AuthContext } from '../../authContext/AuthContext';
+import {login} from '../../authContext/apiCalls'
+import './login.scss';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    return (
-        <div className="login">
-            <div className="top">
+  const [auth, setAuth] = useState({
+    email: '',
+    password: '',
+  });
+  const navigate = useNavigate() 
+  const {dispatch} = useContext(AuthContext)
+  const handleChange = (e) => {
+    setAuth(prev => ({...prev, [e.target.name]: e.target.value}))
+  }
+  const handleAuth = (e) => {
+    e.preventDefault()
+    login(auth, dispatch)
+    
+  }
+  return (
+    <div className="login">
+      <div className="top">
         <div className="wrapper">
           <img
             className="logo"
@@ -17,20 +33,20 @@ const Login = () => {
       <div className="container">
         <form>
           <h1>Sign In</h1>
-          <input type="email" placeholder="Email or phone number" />
-          <input type="password" placeholder="Password" />
-          <button className="loginButton">Sign In</button>
+          <input type="email" name="email" value={auth.email} onChange={e => handleChange(e)} placeholder="Email or phone number" />
+          <input type="password" name="password" value={auth.password} onChange={e => handleChange(e)} placeholder="Password" />
+          <button onClick={e => handleAuth(e)} className="loginButton">Sign In</button>
           <span>
-            New to Netflix? <b>Sign up now.</b>
+            New to Netflix? <b style={{cursor: 'pointer'}} onClick={() => navigate('/register')}>Sign up now.</b>
           </span>
           <small>
-            This page is protected by Google reCAPTCHA to ensure you're not a
-            bot. <b>Learn more</b>.
+            This page is protected by Google reCAPTCHA to ensure you're not a bot. <b>Learn more</b>
+            .
           </small>
         </form>
       </div>
-        </div>
-    )
-}
+    </div>
+  );
+};
 
-export default Login
+export default Login;
